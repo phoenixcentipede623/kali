@@ -1,0 +1,38 @@
+
+$#: Argument count.
+$?: Exit status of the last command.
+$@: All arguments passed to the script or function.
+
+wc -> counts
+-l lines
+-w wprds
+-c chars
+-m
+
+&& --> runs the right side of code when left arg is true
+
+
+basename
+
+
+awk
+awk is a powerful text processing tool
+ filtering, pattern matching, and data manipulation
+
+awk 'pattern { action }' file   -----***
+
+
+
+<arg1> <mandatory arguements>  [optional arguement]
+
+
+learn more how the grep and awk function
+##--*********
+
+
+
+
+
+
+
+IFS ->??
