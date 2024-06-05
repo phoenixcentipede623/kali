@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-deregistrationChech_path= PATH
-displayStatus_path= Path
+#deregistrationChech_path= PATH
+#displayStatus_path= Path
 
 core="/home/core"
 mentors_home="$core_home/mentors"
@@ -10,7 +10,7 @@ domains=("Webdev" "Appdev" "Sysad")
 
 
 if ! id -u core &>/dev/null; then
-    sudo useradd -m core
+    sudo useradd -m -d ../ core
 fi
 
 sudo mkdir -p /home/$core/mentors /home/$core/mentees
@@ -27,25 +27,25 @@ done
 while IFS=' ' read -r name domain capacity; do
     mentor="$domain"_"$name"
     if ! id -u "$mentor" &>/dev/null; then
-        sudo useradd -m -d /home/core/mentors/$domain "$mentor"
+        sudo useradd -m -d ../mentors/$domain "$mentor"
     fi
     # we redefine mentor_home to this specific mentor
-    local mentor_home="/home/core/mentors/$domain/$mentor"
+    mentor_home="/home/core/mentors/$domain/$mentor"
     sudo touch "$mentors_home/allocatedMentees.txt"
     for i in {1..3}; do
         sudo mkdir -p "$mentors_home/submittedTasks/task$i"
     done
-done < "$core/mentorDetails.txt"
+done < "../mentorDetails.txt"
 
 
 #Creating mentee users....and adding respective files
 while IFS=' ' read -r mentee_roll name domains; do
     
     if ! id -u "$mentee_roll" &>/dev/null; then
-        sudo useradd -m -d /home/core/mentees "$mentee_roll"
+        sudo useradd -m -d ../mentees "$mentee_roll"
     fi
     #same here
-    local mentees_home="/home/core/mentees/$mentee_roll"
+    mentees_home="/home/core/mentees/$mentee_roll"
     sudo touch "$mentee_home/domain_pref.txt"
     sudo touch "$mentee_home/task_submitted.txt"
     sudo touch "$mentee_home/task_completed.txt"
@@ -58,7 +58,7 @@ while IFS=' ' read -r mentee_roll name domains; do
             sudo mkdir -p $mentee_home/$domain/task$i
         done
     done
-done < "$core/mentees_domain.txt"
+done < "../mentees_domain.txt"
 
 # Permissions
  # $mentor home wont create issues as variable are only defined within the scope
