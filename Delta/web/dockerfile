@@ -1,0 +1,15 @@
+# web/Dockerfile
+
+FROM node:latest
+
+# Install dependencies
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+# Copy app files
+COPY . .
+
+# Expose port and start the application
+EXPOSE 3000
+CMD ["node", "app.js"]

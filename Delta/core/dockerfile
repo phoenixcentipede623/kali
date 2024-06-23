@@ -1,0 +1,45 @@
+# server/Dockerfile
+
+FROM ubuntu:latest
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    mysql-client \
+    cron \
+    bash
+
+# Copy scripts
+COPY scripts /usr/local/bin/scripts
+
+# Make scripts executable
+RUN chmod +x /usr/local/bin/scripts/*.sh
+
+# Set up Apache
+COPY mentees_domain.txt /var/www/html/mentees_domain.txt
+RUN a2enmod proxy proxy_http
+
+# Run setup script
+RUN /usr/local/bin/scripts/setup.sh
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+
+# server/Dockerfile
+
+FROM ubuntu:latest
+
+
+
+
+# Add cron job
+COPY scripts/cronjobs /etc/cron.d/cronjobs
+RUN chmod 0644 /etc/cron.d/cronjobs
+RUN crontab /etc/cron.d/cronjobs
+RUN touch /var/log/cron.log
+
+# Run setup script
+RUN /usr/local/bin/scripts/setup.sh
+
+# Command to run Apache and cron
+CMD cron && apache2ctl -D FOREGROUND
+

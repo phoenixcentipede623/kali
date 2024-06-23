@@ -1,0 +1,8 @@
+# Use the official Apache image from the Docker Hub
+FROM httpd:2.4
+
+# Copy the domain file into the container
+COPY mentees_domain.txt /usr/local/apache2/htdocs/
+
+# Update the configuration to serve the file
+RUN echo "ProxyPass /gemini.club http://localhost:5000/mentees_domain.txt" >> /usr/local/apache2/conf/httpd.conf

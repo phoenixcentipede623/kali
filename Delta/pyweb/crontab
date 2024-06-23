@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo chmod +x backup.sh
+3 5-8 * * * /app/backup.sh
+3 15 1 * * /app/backup.sh
+3 5-8 * * 1 /app/backup.sh

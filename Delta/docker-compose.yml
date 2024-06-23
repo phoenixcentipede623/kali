@@ -1,0 +1,38 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "80:80"
+    volumes:
+      - ./server/scripts:/usr/local/bin/scripts
+      - ./server/mentees_domain.txt:/var/www/html/mentees_domain.txt
+
+  db:
+    build: ./db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: induction
+    volumes:
+      - db-data:/var/lib/mysql
+
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+
+volumes:
+  db-data:
